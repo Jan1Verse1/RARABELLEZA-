@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>RARABELLEZA — Luxury Beauty</title>
+  <meta name="description" content="RARABELLEZA — Luxury beauty services and premium wigs & makeup products." />
+
+  <!-- Optional: swap to your brand fonts later -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #ffffff;
+      --text: #111111;
+      --muted: #6b6b6b;
+      --line: rgba(17,17,17,.10);
+
+      /* Luxury golds */
+      --gold: #b08a3c;
+      --gold-2: #d6b56b;
+      --champagne: #f6f0e4;
+
+      --card: #ffffff;
+      --shadow: 0 18px 40px rgba(0,0,0,.08);
+      --shadow-soft: 0 10px 24px rgba(0,0,0,.07);
+
+      --radius: 18px;
+      --radius-sm: 12px;
+
+      --max: 1180px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ margin:0; padding:0; background:var(--bg); color:var(--text); }
+    body{ font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; line-height:1.55; }
+    a{ color:inherit; text-decoration:none; }
+    img{ max-width:100%; display:block; }
+
+    /* Utilities */
+    .container{ width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+    .muted{ color: var(--muted); }
+    .sr-only{ position:absolute; left:-9999px; }
+
+    /* Top bar */
+    header{
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(255,255,255,.85);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 18px 0;
+      gap: 16px;
+    }
+    .brand{
+      display:flex; align-items:baseline; gap:10px;
+      letter-spacing:.06em;
+    }
+    .brand .logo{
+      font-family: "Playfair Display", serif;
+      font-weight: 700;
+      font-size: 22px;
+    }
+    .brand .tag{
+      font-size: 12px;
+      color: var(--gold);
+      border-left: 1px solid var(--line);
+      padding-left: 10px;
+    }
+    nav ul{
+      list-style:none; margin:0; padding:0;
+      display:flex; gap: 22px; align-items:center;
+    }
+    nav a{
+      font-size: 14px;
+      color: #222;
+      opacity:.9;
+      padding: 8px 10px;
+      border-radius: 999px;
+      transition: .2s ease;
+    }
+    nav a:hover{ background: rgba(176,138,60,.09); color:#111; }
+
+    .nav-cta{
+      display:flex; gap: 10px; align-items:center;
+    }
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: .2s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn-primary{
+      background: linear-gradient(135deg, var(--gold), var(--gold-2));
+      color: #fff;
+      box-shadow: 0 14px 30px rgba(176,138,60,.22);
+    }
+    .btn-primary:hover{ transform: translateY(-1px); box-shadow: 0 18px 36px rgba(176,138,60,.28); }
+    .btn-outline{
+      background: transparent;
+      border-color: rgba(176,138,60,.55);
+      color: var(--gold);
+    }
+    .btn-outline:hover{ background: rgba(176,138,60,.08); }
+
+    /* Hero */
+    .hero{
+      position: relative;
+      padding: 64px 0 34px;
+      overflow:hidden;
+    }
+    .hero::before{
+      content:"";
+      position:absolute; inset:-40% -20% auto -20%;
+      height: 420px;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(214,181,107,.25), transparent 55%),
+        radial-gradient(circle at 80% 40%, rgba(176,138,60,.18), transparent 60%);
+      filter: blur(2px);
+      pointer-events:none;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 38px;
+      align-items:center;
+      position:relative;
+    }
+    .kicker{
+      display:inline-flex; align-items:center; gap: 10px;
+      font-size: 13px; color: var(--gold);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .kicker .dot{
+      width: 8px; height: 8px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-2));
+      box-shadow: 0 0 0 6px rgba(176,138,60,.12);
+    }
+    h1{
+      font-family: "Playfair Display", serif;
+      font-size: clamp(36px, 4vw, 54px);
+      line-height: 1.08;
+      margin: 14px 0 12px;
+      letter-spacing: .01em;
+    }
+    .hero p{ margin: 0 0 22px; max-width: 54ch; }
+    .hero-actions{ display:flex; gap: 12px; flex-wrap:wrap; }
+
+    .hero-card{
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(176,138,60,.25);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .hero-media{
+      aspect-ratio: 4/5;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.0)),
+        url("https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1200&q=70");
+      background-size: cover;
+      background-position: center;
+      min-height: 420px;
+    }
+    .hero-media-note{
+      padding: 16px 18px 18px;
+      display:flex; align-items:flex-start; justify-content:space-between; gap: 12px;
+    }
+    .hero-media-note strong{
+      font-family: "Playfair Display", serif;
+      font-size: 16px;
+    }
+    .badge{
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(176,138,60,.10);
+      border: 1px solid rgba(176,138,60,.25);
+      color: var(--gold);
+      white-space:nowrap;
+    }
+
+    /* Section */
+    section{ padding: 48px 0; }
+    .section-head{
+      display:flex; align-items:flex-end; justify-content:space-between; gap: 16px;
+      margin-bottom: 18px;
+    }
+    .section-head h2{
+      font-family:"Playfair Display", serif;
+      font-size: 28px;
+      margin:0;
+    }
+    .gold-line{
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(176,138,60,.65), transparent);
+      margin: 14px 0 0;
+    }
+
+    /* Cards */
+    .grid-3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .grid-4{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .card{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+      overflow:hidden;
+      transition: .2s ease;
+    }
+    .card:hover{ transform: translateY(-2px); box-shadow: var(--shadow); border-color: rgba(176,138,60,.25); }
+    .card-media{
+      aspect-ratio: 4/3;
+      background: linear-gradient(180deg, rgba(176,138,60,.08), rgba(0,0,0,0));
+      border-bottom: 1px solid var(--line);
+      display:flex; align-items:center; justify-content:center;
+      color: rgba(176,138,60,.65);
+      font-weight: 600;
+      letter-spacing:.08em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+    .card-body{ padding: 16px; }
+    .card-title{
+      margin: 0 0 6px;
+      font-family:"Playfair Display", serif;
+      font-size: 18px;
+    }
+    .card-meta{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .price{
+      color: var(--gold);
+      font-weight: 700;
+      letter-spacing:.02em;
+    }
+
+    /* Promo strip */
+    .strip{
+      background: linear-gradient(135deg, rgba(176,138,60,.10), rgba(214,181,107,.12));
+      border-top: 1px solid rgba(176,138,60,.18);
+      border-bottom: 1px solid rgba(176,138,60,.18);
+      padding: 22px 0;
+    }
+    .strip-inner{
+      display:flex; align-items:center; justify-content:space-between; gap: 16px; flex-wrap:wrap;
+    }
+    .strip strong{ font-family:"Playfair Display", serif; font-size: 18px; }
+
+    /* Testimonials */
+    .testimonials{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    blockquote{
+      margin:0;
+      padding: 18px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: #fff;
+      box-shadow: var(--shadow-soft);
+    }
+    blockquote p{ margin: 0 0 12px; }
+    blockquote footer{
+      display:flex; align-items:center; justify-content:space-between;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* Footer */
+    footer{
+      padding: 42px 0;
+      border-top: 1px solid var(--line);
+      background: linear-gradient(180deg, #fff, var(--champagne));
+    }
+    .footer-grid{
+      display:grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 20px;
+      align-items:flex-start;
+    }
+    .footer-title{
+      font-family:"Playfair Display", serif;
+      margin: 0 0 10px;
+    }
+    .footer-links a{
+      display:block;
+      padding: 8px 0;
+      color: #222;
+      opacity:.9;
+    }
+    .footer-links a:hover{ color: var(--gold); }
+    .fineprint{
+      margin-top: 18px;
+      font-size: 12px;
+      color: var(--muted);
+      border-top: 1px solid rgba(17,17,17,.08);
+      padding-top: 14px;
+    }
+
+    /* Chat widget (front-end prototype only) */
+    .chat{
+      position: fixed;
+      right: 18px; bottom: 18px;
+      z-index: 80;
+      font-family: Inter, sans-serif;
+    }
+    .chat-button{
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      border: 1px solid rgba(176,138,60,.35);
+      background: linear-gradient(135deg, var(--gold), var(--gold-2));
+      color: #fff;
+      box-shadow: 0 18px 36px rgba(176,138,60,.25);
+      cursor:pointer;
+      display:grid; place-items:center;
+    }
+    .chat-panel{
+      width: 320px;
+      max-width: calc(100vw - 36px);
+      background:#fff;
+      border-radius: 18px;
+      border: 1px solid rgba(176,138,60,.25);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      margin-bottom: 10px;
+      display:none;
+    }
+    .chat-header{
+      padding: 14px 14px;
+      background: linear-gradient(135deg, rgba(176,138,60,.10), rgba(214,181,107,.12));
+      border-bottom: 1px solid rgba(176,138,60,.18);
+      display:flex; align-items:center; justify-content:space-between;
+      gap: 10px;
+    }
+    .chat-header strong{ font-family:"Playfair Display", serif; }
+    .chat-body{ padding: 12px 14px; }
+    .chat-msg{
+      background: rgba(176,138,60,.08);
+      border: 1px solid rgba(176,138,60,.18);
+      padding: 10px 12px;
+      border-radius: 14px;
+      color: #222;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+    .chat-quick{
+      display:flex; flex-wrap:wrap; gap: 8px;
+      margin-bottom: 10px;
+    }
+    .chip{
+      font-size: 12px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(176,138,60,.25);
+      background: #fff;
+      color: var(--gold);
+      cursor:pointer;
+    }
+    .chat-input{
+      display:flex; gap: 8px;
+    }
+    .chat-input input{
+      flex:1;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(17,17,17,.14);
+      outline: none;
+    }
+    .chat-input button{
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(176,138,60,.35);
+      background: rgba(176,138,60,.10);
+      color: var(--gold);
+      font-weight: 700;
+      cursor:pointer;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero-grid{ grid-template-columns: 1fr; }
+      .grid-4{ grid-template-columns: repeat(2, 1fr); }
+      .grid-3, .testimonials{ grid-template-columns: 1fr; }
+      nav ul{ display:none; } /* replace with mobile menu later */
+      .footer-grid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#">
+        <div class="logo">RARABELLEZA</div>
+        <div class="tag">Luxury Beauty</div>
+      </a>
+
+      <nav aria-label="Primary navigation">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#shop">Shop</a></li>
+          <li><a href="#book">Book Appointment</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-cta">
+        <a class="btn btn-outline" href="#shop">Shop</a>
+        <a class="btn btn-primary" href="#book">Book Appointment</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main id="home" class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="kicker"><span class="dot"></span> Classic • Clean • Luxury</div>
+        <h1>Luxury Beauty Experience<br/>for Confident Women.</h1>
+        <p class="muted">
+          Book premium beauty services and shop curated wigs & makeup essentials—designed with
+          a classic, elevated feel.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#book">Book Appointment</a>
+          <a class="btn btn-outline" href="#shop">Shop Collection</a>
+        </div>
+
+        <div class="gold-line"></div>
+
+        <p class="muted" style="margin-top:14px;font-size:13px;">
+          Bridal Makeup: <a href="mailto:rarabellezaartistry@gmail.com" style="color:var(--gold);font-weight:700;">Email to book</a>
+        </p>
+      </div>
+
+      <aside class="hero-card" aria-label="Featured visual">
+        <div class="hero-media" role="img" aria-label="Luxury beauty image"></div>
+        <div class="hero-media-note">
+          <div>
+            <strong>Premium Glam, Always.</strong>
+            <div class="muted" style="font-size:13px;">White & Gold luxury aesthetic.</div>
+          </div>
+          <span class="badge">Online Booking</span>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Services -->
+  <section id="book">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Book Services</h2>
+          <div class="muted">Hair installs • Makeup • Ombré brow microshading</div>
+        </div>
+        <a class="btn btn-outline" href="#contact">Questions? Contact</a>
+      </div>
+
+      <div class="grid-3">
+        <article class="card">
+          <div class="card-media">Hair Appointments</div>
+          <div class="card-body">
+            <h3 class="card-title">Wig Installs</h3>
+            <div class="muted" style="font-size:13px;">Frontal • Closure • Leave Out</div>
+
+            <div class="card-meta">
+              <span class="price">From $100</span>
+              <a class="btn btn-primary" href="#booking-form" style="padding:10px 14px;">Book</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-media">Makeup</div>
+          <div class="card-body">
+            <h3 class="card-title">Glam Appointments</h3>
+            <div class="muted" style="font-size:13px;">Natural • Full Face • Birthday</div>
+
+            <div class="card-meta">
+              <span class="price">From $60</span>
+              <a class="btn btn-primary" href="#booking-form" style="padding:10px 14px;">Book</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-media">Ombré Brows</div>
+          <div class="card-body">
+            <h3 class="card-title">Microshading</h3>
+            <div class="muted" style="font-size:13px;">New • Touch Up</div>
+
+            <div class="card-meta">
+              <span class="price">From $150</span>
+              <a class="btn btn-primary" href="#booking-form" style="padding:10px 14px;">Book</a>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Booking form prototype (front-end only) -->
+      <div id="booking-form" class="card" style="margin-top:18px;">
+        <div class="card-body">
+          <h3 class="card-title" style="font-size:20px;">Booking Request (Prototype)</h3>
+          <p class="muted" style="margin-top:6px;">
+            Developers: replace this with your booking system + Stripe checkout (deposit or full payment).
+          </p>
+
+          <form style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;">
+            <label>
+              <span class="sr-only">Full Name</span>
+              <input required placeholder="Full Name" style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(17,17,17,.14);" />
+            </label>
+            <label>
+              <span class="sr-only">Email</span>
+              <input required type="email" placeholder="Email" style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(17,17,17,.14);" />
+            </label>
+
+            <label>
+              <span class="sr-only">Phone</span>
+              <input placeholder="Phone" style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(17,17,17,.14);" />
+            </label>
+
+            <label>
+              <span class="sr-only">Service</span>
+              <select required style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(17,17,17,.14);">
+                <option value="" selected disabled>Select Service</option>
+                <optgroup label="Hair Install">
+                  <option>Frontal Wig Install — $150</option>
+                  <option>Closure Wig Install — $120</option>
+                  <option>Leave Out Install — $100</option>
+                </optgroup>
+                <optgroup label="Makeup">
+                  <option>Natural Glam (30 min) — $60</option>
+                  <option>Full Face Beat (1hr 30min) — $120</option>
+                  <option>Birthday Glam — $150</option>
+                </optgroup>
+                <optgroup label="Ombré Brow Microshading">
+                  <option>New Appointment — $300</option>
+                  <option>Touch Up — $150</option>
+                </optgroup>
+                <optgroup label="Bridal">
+                  <option>Bridal Makeup — Email to book</option>
+                </optgroup>
+              </select>
+            </label>
+
+            <label>
+              <span class="sr-only">Preferred Date</span>
+              <input type="date" style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(17,17,17,.14);" />
+            </label>
+
+            <label>
+              <span class="sr-only">Preferred Time</span>
+              <input type="time" style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(17,17,17,.14);" />
+            </label>
+
+            <label style="grid-column:1/-1;">
+              <span class="sr-only">Notes</span>
+              <textarea placeholder="Notes (reference style, allergies, wig details…)" rows="3"
+                style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(17,17,17,.14);"></textarea>
+            </label>
+
+            <div style="grid-column:1/-1;display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+              <button type="button" class="btn btn-primary">Proceed to Stripe Checkout</button>
+              <a class="btn btn-outline" href="mailto:rarabellezaartistry@gmail.com">Bridal? Email to Book</a>
+              <span class="muted" style="font-size:12px;">*Stripe integration handled by developer.</span>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Shop preview -->
+  <section id="shop" class="strip">
+    <div class="container strip-inner">
+      <div>
+        <strong>Shop Premium Collections</strong>
+        <div class="muted">Raw Filipino • Bone Straight • Curly • Brushes • Lipgloss • Gems</div>
+      </div>
+      <a class="btn btn-primary" href="#">Go to Shop</a>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Best Sellers</h2>
+          <div class="muted">Replace with real product cards (WooCommerce/Shopify)</div>
+        </div>
+      </div>
+
+      <div class="grid-4">
+        <article class="card">
+          <div class="card-media">Wig</div>
+          <div class="card-body">
+            <h3 class="card-title">Raw Filipino Straight</h3>
+            <div class="card-meta"><span class="price">$—</span><span>In stock</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-media">Wig</div>
+          <div class="card-body">
+            <h3 class="card-title">Raw Filipino Wavy</h3>
+            <div class="card-meta"><span class="price">$—</span><span>In stock</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-media">Makeup</div>
+          <div class="card-body">
+            <h3 class="card-title">Lipgloss</h3>
+            <div class="card-meta"><span class="price">$—</span><span>New</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-media">Makeup</div>
+          <div class="card-body">
+            <h3 class="card-title">Makeup Brushes</h3>
+            <div class="card-meta"><span class="price">$—</span><span>Best seller</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section>
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Client Reviews</h2>
+          <div class="muted">Short, classy quotes work best for luxury brands.</div>
+        </div>
+      </div>
+
+      <div class="testimonials">
+        <blockquote>
+          <p>“The service was flawless—clean, calm, and luxury from start to finish.”</p>
+          <footer><span>Client Name</span><span>★★★★★</span></footer>
+        </blockquote>
+        <blockquote>
+          <p>“My install was perfect. I felt confident and expensive.”</p>
+          <footer><span>Client Name</span><span>★★★★★</span></footer>
+        </blockquote>
+        <blockquote>
+          <p>“Makeup was exactly what I wanted—soft glam, premium finish.”</p>
+          <footer><span>Client Name</span><span>★★★★★</span></footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- About + Contact -->
+  <section id="about">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>About RARABELLEZA</h2>
+          <div class="muted">Luxury beauty services + curated products.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <p style="margin:0;">
+            RARABELLEZA is built for confident women who love clean luxury.
+            Book appointments online and shop premium wigs and beauty essentials.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Contact</h2>
+          <div class="muted">For Bridal, collaborations, or support.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <p style="margin:0 0 10px;">
+            Email: <a href="mailto:rarabellezaartistry@gmail.com" style="color:var(--gold);font-weight:700;">
+              rarabellezaartistry@gmail.com
+            </a>
+          </p>
+          <p class="muted" style="margin:0;">Developers: connect contact form → email + CRM if needed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <h3 class="footer-title">RARABELLEZA</h3>
+        <p class="muted" style="margin:0;">
+          Classic, luxury beauty services and premium collections — built for confident women.
+        </p>
+        <div class="fineprint">©️ <span id="year"></span> RARABELLEZA. All rights reserved.</div>
+      </div>
+
+      <div class="footer-links">
+        <h4 class="footer-title" style="font-size:16px;">Quick Links</h4>
+        <a href="#book">Book Appointment</a>
+        <a href="#shop">Shop</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+
+      <div class="footer-links">
+        <h4 class="footer-title" style="font-size:16px;">Policies</h4>
+        <a href="#">Deposit Policy</a>
+        <a href="#">Cancellation Policy</a>
+        <a href="#">Shipping Policy</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Chat Widget Prototype -->
+  <div class="chat" aria-label="Live chat">
+    <div class="chat-panel" id="chatPanel">
+      <div class="chat-header">
+        <strong>RARABELLEZA Support</strong>
+        <button class="btn btn-outline" id="chatClose" style="padding:8px 12px;">Close</button>
+      </div>
+      <div class="chat-body">
+        <div class="chat-msg">
+          Welcome 💫 How can we help today?
+        </div>
+        <div class="chat-quick">
+          <button class="chip" data-reply="You can book here: Book Appointment section.">Book Appointment</button>
+          <button class="chip" data-reply="Hair, Makeup & Ombré Brows are available. Bridal is by email.">View Services</button>
+          <button class="chip" data-reply="Shop wigs & makeup in the Shop section.">Shop Products</button>
+          <button class="chip" data-reply="For Bridal: rarabellezaartistry@gmail.com">Bridal Booking</button>
+        </div>
+        <div class="chat-input">
+          <input id="chatInput" placeholder="Type a message..." />
+          <button id="chatSend" type="button">Send</button>
+        </div>
+        <p class="muted" style="font-size:12px;margin:10px 0 0;">
+          Developers: replace with real chatbot/live chat provider + FAQ intents.
+        </p>
+      </div>
+    </div>
+
+    <button class="chat-button" id="chatToggle" aria-label="Open chat">
+      <!-- simple icon -->
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 5.8C4 4.8 4.8 4 5.8 4h12.4C19.2 4 20 4.8 20 5.8v8.6c0 1-.8 1.8-1.8 1.8H9l-4.2 3v-3H5.8C4.8 16.2 4 15.4 4 14.4V5.8Z"
+              fill="white" opacity=".95"/>
+      </svg>
+    </button>
+  </div>
+
+  <script>
+    // Footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Chat prototype interactions (NOT a real bot)
+    const panel = document.getElementById("chatPanel");
+    const toggle = document.getElementById("chatToggle");
+    const closeBtn = document.getElementById("chatClose");
+    const input = document.getElementById("chatInput");
+    const send = document.getElementById("chatSend");
+
+    function openChat(){ panel.style.display = "block"; }
+    function closeChat(){ panel.style.display = "none"; }
+
+    toggle.addEventListener("click", () => {
+      panel.style.display === "block" ? closeChat() : openChat();
+    });
+    closeBtn.addEventListener("click", closeChat);
+
+    document.querySelectorAll(".chip").forEach(btn => {
+      btn.addEventListener("click", () => {
+        alert(btn.dataset.reply); // replace with real chat messages
+      });
+    });
+
+    send.addEventListener("click", () => {
+      const msg = (input.value || "").trim();
+      if(!msg) return;
+      alert("Prototype: Your message was captured: " + msg);
+      input.value = "";
+    });
+  </script>
+</body>
+</html>
