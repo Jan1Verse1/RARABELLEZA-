@@ -1,5 +1,6 @@
 // src/pages/ContactPage.jsx
 import React, { useState } from 'react';
+import { apiFetch } from '../api';
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -8,16 +9,28 @@ const ContactPage = () => {
     subject: '',
     message: '',
   });
+  const [status, setStatus] = useState(null); // 'success' | 'error'
 
   const handleChange = (field, value) => {
     setFormData({ ...formData, [field]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Contact form submitted:', formData);
-    alert('Message sent! (Demo - connect to backend)');
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    try {
+      const res = await apiFetch('/api/contact-messages', {
+        method: 'POST',
+        body: JSON.stringify({ data: formData }),
+      });
+      if (!res.ok) throw new Error('Failed to send message');
+      setStatus('success');
+      setFormData({ name: '', email: '', subject: '', message: '' });
+      setTimeout(() => setStatus(null), 3000);
+    } catch (err) {
+      console.error(err);
+      setStatus('error');
+      setTimeout(() => setStatus(null), 3000);
+    }
   };
 
   return (
@@ -36,6 +49,17 @@ const ContactPage = () => {
           <div className="bg-white border border-gray-100 rounded-2xl shadow-md p-6">
             <h2 className="font-serif text-2xl mb-4">Send us a Message</h2>
             
+            {status === 'success' && (
+              <div className="mb-4 p-3 rounded-xl bg-green-50 border border-green-200 text-green-800 text-sm text-center">
+                Message sent successfully!
+              </div>
+            )}
+            {status === 'error' && (
+              <div className="mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-800 text-sm text-center">
+                Something went wrong. Please try again.
+              </div>
+            )}
+
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">

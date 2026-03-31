@@ -1,10 +1,12 @@
 // src/pages/ShopPage.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ProductCard from '../components/productCard';
+import { apiFetch } from '../api';
 
 const ShopPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [allProducts, setAllProducts] = useState([]);
 
   const categories = [
     { id: 'all', name: 'All Products' },
@@ -13,20 +15,22 @@ const ShopPage = () => {
     { id: 'accessories', name: 'Accessories' },
   ];
 
-  const allProducts = [
-    { id: 1, title: 'Raw Filipino Straight', price: 250, status: 'In stock', category: 'wigs' },
-    { id: 2, title: 'Raw Filipino Wavy', price: 275, status: 'In stock', category: 'wigs' },
-    { id: 3, title: 'Raw Filipino Curly', price: 300, status: 'In stock', category: 'wigs' },
-    { id: 4, title: 'Bone Straight Wig', price: 280, status: 'In stock', category: 'wigs' },
-    { id: 5, title: 'Lipgloss Set', price: 18, status: 'New', category: 'makeup' },
-    { id: 6, title: 'Makeup Brushes', price: 45, status: 'Best seller', category: 'makeup' },
-    { id: 7, title: 'Foundation', price: 35, status: 'In stock', category: 'makeup' },
-    { id: 8, title: 'Eyeshadow Palette', price: 52, status: 'New', category: 'makeup' },
-    { id: 9, title: 'Hair Gems', price: 12, status: 'In stock', category: 'accessories' },
-    { id: 10, title: 'Wig Cap', price: 8, status: 'In stock', category: 'accessories' },
-    { id: 11, title: 'Edge Control', price: 15, status: 'Best seller', category: 'accessories' },
-    { id: 12, title: 'Makeup Bag', price: 25, status: 'In stock', category: 'accessories' },
-  ];
+  useEffect(() => {
+    apiFetch('/api/products?populate=*&pagination[limit]=100')
+      .then((res) => res.json())
+      .then((data) => {
+        setAllProducts(
+          data.data.map((item) => ({
+            id: item.id,
+            title: item.title,
+            price: item.price,
+            status: item.status,
+            category: item.category,
+          }))
+        );
+      })
+      .catch(console.error);
+  }, []);
 
   const filteredProducts = allProducts.filter((product) => {
     const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;

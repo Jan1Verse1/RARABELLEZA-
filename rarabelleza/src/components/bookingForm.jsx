@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { apiFetch } from '../api';
 
 // Booking Form Component
 const BookingForm = ({ showForm, onClose }) => {
@@ -11,15 +12,31 @@ const BookingForm = ({ showForm, onClose }) => {
     time: '',
     notes: '',
   });
+  const [status, setStatus] = useState(null); // 'success' | 'error'
 
   const handleChange = (field, value) => {
     setFormData({ ...formData, [field]: value });
   };
 
-  const handleSubmit = () => {
-    console.log('Booking submitted:', formData);
-    alert('Booking request submitted! (Demo - connect to backend)');
-    onClose();
+  const handleSubmit = async () => {
+    try {
+      const payload = {
+        ...formData,
+        time: formData.time ? `${formData.time}:00.000` : '',
+      };
+      const res = await apiFetch('/api/bookings', {
+        method: 'POST',
+        body: JSON.stringify({ data: payload }),
+      });
+      if (!res.ok) throw new Error('Failed to submit booking');
+      setStatus('success');
+      setFormData({ name: '', email: '', phone: '', service: '', date: '', time: '', notes: '' });
+      setTimeout(() => { setStatus(null); onClose(); }, 2000);
+    } catch (err) {
+      console.error(err);
+      setStatus('error');
+      setTimeout(() => setStatus(null), 3000);
+    }
   };
 
   if (!showForm) return null;
@@ -37,6 +54,17 @@ const BookingForm = ({ showForm, onClose }) => {
           </button>
         </div>
         
+        {status === 'success' && (
+          <div className="mx-5 mt-4 p-3 rounded-xl bg-green-50 border border-green-200 text-green-800 text-sm text-center">
+            Booking request submitted successfully!
+          </div>
+        )}
+        {status === 'error' && (
+          <div className="mx-5 mt-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-800 text-sm text-center">
+            Something went wrong. Please try again.
+          </div>
+        )}
+
         <div className="p-5 grid grid-cols-1 md:grid-cols-2 gap-3">
           <input
             placeholder="Full Name *"

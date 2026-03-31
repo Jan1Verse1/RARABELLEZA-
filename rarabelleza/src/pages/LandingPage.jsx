@@ -1,60 +1,58 @@
 // src/pages/LandingPage.jsx
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import Hero from '../components/hero';
 import ServiceCard from '../components/serviceCard';
 import ProductCard from '../components/productCard';
 import Testimonial from '../components/testimonials';
-import iMG from '../assets/hero1.png';
+import { API_URL, apiFetch } from '../api';
 
 const LandingPage = ({ setShowBookingForm }) => {
-  const services = [
-    {
-      title: 'Wig Installs',
-      description: 'Frontal • Closure • Leave Out',
-      price: 'From $100',
-      category: 'Hair Appointments',
-      image: iMG,
-    },
-    {
-      title: 'Glam Appointments',
-      description: 'Natural • Full Face • Birthday',
-      price: 'From $60',
-      category: 'Makeup',
-      image: iMG,
-    },
-    {
-      title: 'Microshading',
-      description: 'New • Touch Up',
-      price: 'From $150',
-      category: 'Ombré Brows',
-      image: iMG,
-    },
-  ];
+  const [services, setServices] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [testimonials, setTestimonials] = useState([]);
 
-  const products = [
-    { title: 'Raw Filipino Straight', price: 250, status: 'In stock' },
-    { title: 'Raw Filipino Wavy', price: 275, status: 'In stock' },
-    { title: 'Lipgloss', price: 18, status: 'New' },
-    { title: 'Makeup Brushes', price: 45, status: 'Best seller' },
-  ];
+  useEffect(() => {
+    apiFetch('/api/services?populate=*')
+      .then((res) => res.json())
+      .then((data) => {
+        setServices(
+          data.data.map((item) => ({
+            title: item.title,
+            description: item.description,
+            price: item.price,
+            category: item.category,
+            image: item.image ? `${API_URL}${item.image.url}` : null,
+          }))
+        );
+      })
+      .catch(console.error);
 
-  const testimonials = [
-    {
-      text: 'The service was flawless—clean, calm, and luxury from start to finish.',
-      author: 'Sarah M.',
-      rating: '★★★★★',
-    },
-    {
-      text: 'My install was perfect. I felt confident and expensive.',
-      author: 'Jasmine T.',
-      rating: '★★★★★',
-    },
-    {
-      text: 'Makeup was exactly what I wanted—soft glam, premium finish.',
-      author: 'Nicole R.',
-      rating: '★★★★★',
-    },
-  ];
+    apiFetch('/api/products?populate=*&pagination[limit]=4&sort=createdAt:desc')
+      .then((res) => res.json())
+      .then((data) => {
+        setProducts(
+          data.data.map((item) => ({
+            title: item.title,
+            price: item.price,
+            status: item.status,
+          }))
+        );
+      })
+      .catch(console.error);
+
+    apiFetch('/api/testimonials')
+      .then((res) => res.json())
+      .then((data) => {
+        setTestimonials(
+          data.data.map((item) => ({
+            text: item.text,
+            author: item.author,
+            rating: '★'.repeat(item.rating),
+          }))
+        );
+      })
+      .catch(console.error);
+  }, []);
 
   return (
     <>
@@ -123,6 +121,29 @@ const LandingPage = ({ setShowBookingForm }) => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {testimonials.map((testimonial, idx) => (
               <Testimonial key={idx} {...testimonial} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="py-12">
+        <div className="max-w-7xl mx-auto px-5">
+          <div className="mb-4.5">
+            <h2 className="font-serif text-3xl m-0">Frequently Asked Questions</h2>
+            <div className="text-gray-600">Quick answers to common questions</div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[
+              { q: 'Do you require a deposit?', a: 'Yes, a non-refundable deposit secures your appointment.' },
+              { q: 'Do you accept card payments?', a: 'Yes, we accept debit and credit card.' },
+              { q: 'How long does shipping take?', a: '3–7 business days.' },
+              { q: 'Can I reschedule?', a: '24-hour notice required.' },
+            ].map((item, idx) => (
+              <div key={idx} className="bg-white border border-gray-100 rounded-2xl shadow-md p-4">
+                <strong className="text-amber-700 font-serif">Q: {item.q}</strong>
+                <p className="mt-2 mb-0 text-gray-700">A: {item.a}</p>
+              </div>
             ))}
           </div>
         </div>
