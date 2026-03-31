@@ -4,6 +4,7 @@ import Hero from '../components/hero';
 import ServiceCard from '../components/serviceCard';
 import ProductCard from '../components/productCard';
 import Testimonial from '../components/testimonials';
+import iMG from '../assets/hero1.png';
 
 const LandingPage = ({ setShowBookingForm }) => {
   const services = [
@@ -12,18 +13,21 @@ const LandingPage = ({ setShowBookingForm }) => {
       description: 'Frontal • Closure • Leave Out',
       price: 'From $100',
       category: 'Hair Appointments',
+      image: iMG,
     },
     {
       title: 'Glam Appointments',
       description: 'Natural • Full Face • Birthday',
       price: 'From $60',
       category: 'Makeup',
+      image: iMG,
     },
     {
       title: 'Microshading',
       description: 'New • Touch Up',
       price: 'From $150',
       category: 'Ombré Brows',
+      image: iMG,
     },
   ];
 
