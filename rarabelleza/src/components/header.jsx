@@ -42,26 +42,18 @@ const Header = ({ setShowBookingForm }) => {
             >
               Shop
             </Link>
-                  <Link
-              to="/shop"
-              className={`text-sm font-medium transition-colors ${
-                isActive('/shop') 
-                  ? 'text-amber-700' 
-                  : 'text-gray-700 hover:text-amber-700'
-              }`}
+            <button
+              onClick={() => setShowBookingForm(true)}
+              className="text-sm font-medium text-gray-700 hover:text-amber-700 transition-colors bg-transparent border-none cursor-pointer p-0"
             >
-             Book Appointment
-            </Link>
-                  <Link
-              to="/shop"
-              className={`text-sm font-medium transition-colors ${
-                isActive('/shop') 
-                  ? 'text-amber-700' 
-                  : 'text-gray-700 hover:text-amber-700'
-              }`}
+              Book Appointment
+            </button>
+            <a
+              href="/#about"
+              className="text-sm font-medium text-gray-700 hover:text-amber-700 transition-colors no-underline"
             >
               About
-            </Link>
+            </a>
             <Link
               to="/contact"
               className={`text-sm font-medium transition-colors ${
